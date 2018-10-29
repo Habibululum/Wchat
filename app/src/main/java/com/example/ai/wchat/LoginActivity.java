@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
     private ProgressDialog loadingBar;
 
@@ -34,7 +33,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
 
         InitializeFields();
 
@@ -82,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                                 loadingBar.dismiss();
                             } else {
                                 String message = task.getException().toString();
-                                Toast.makeText(LoginActivity.this, "Error : " + message, Toast.LENGTH_SHORT);
+                                Toast.makeText(LoginActivity.this, "Error : " + message, Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
                             }
                         }
@@ -103,19 +101,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        //if user already logged in then send it to MainActivity
-        if (currentUser != null) {
-            SendUserToMainActivity();
-        }
-    }
-
     private void SendUserToMainActivity() {
-        Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(loginIntent);
+        Intent mainIntent = new Intent(LoginActivity.this,MainActivity.class);
+        //make user cannot go back loginActivity if he press backbutton
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(mainIntent);
+        finish();
     }
 
     private void SendUserToRegisterActivity() {

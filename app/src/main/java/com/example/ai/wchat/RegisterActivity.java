@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -24,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView AlreadyHaveAccountLink;
 
     private FirebaseAuth mAuth;
+    private DatabaseReference RootRef;
 
     private ProgressDialog loadingBar;
 
@@ -34,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         mAuth = FirebaseAuth.getInstance();
+        RootRef = FirebaseDatabase.getInstance().getReference();
 
 
         InitializeFields();
@@ -58,10 +62,10 @@ public class RegisterActivity extends AppCompatActivity {
         String password = UserPassword.getText().toString();
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Please Enter Email..", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Please Enter Email..", Toast.LENGTH_SHORT).show();
         }
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Please Enter Password..", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Please Enter Password..", Toast.LENGTH_SHORT).show();
         }
         else {
 
@@ -75,12 +79,16 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
-                                SendUserToLoginActivity();
-                                Toast.makeText(RegisterActivity.this,"Account Created Sucessfully", Toast.LENGTH_SHORT);
+                                //save email&password to database child (name Users) and have child Uid(random Id)
+                                String currentUserID = mAuth.getCurrentUser().getUid();
+                                RootRef.child("Users").child(currentUserID).setValue("");
+
+                                SendUserToMainActivity();
+                                Toast.makeText(RegisterActivity.this,"Account Created Sucessfully", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
                             } else {
                                 String message = task.getException().toString();
-                                Toast.makeText(RegisterActivity.this, "Error : " + message, Toast.LENGTH_SHORT);
+                                Toast.makeText(RegisterActivity.this, "Error : " + message, Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
                             }
                         }
@@ -97,8 +105,18 @@ public class RegisterActivity extends AppCompatActivity {
         loadingBar = new ProgressDialog(this);
     }
 
+    private void SendUserToMainActivity() {
+        Intent mainIntent = new Intent(RegisterActivity.this,MainActivity.class);
+        //make user cannot go back loginActivity if he press backbutton
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(mainIntent);
+        finish();
+    }
+
     private void SendUserToLoginActivity() {
         Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(loginIntent);
     }
+
+
 }
