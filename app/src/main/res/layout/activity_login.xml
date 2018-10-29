@@ -114,7 +114,7 @@
                 android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/phonr_login_button"
+                android:id="@+id/phone_login_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/login_using"
