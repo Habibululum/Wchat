@@ -12,6 +12,7 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
     }
 
     @Override
+    //setting fragment item
     public Fragment getItem(int i) {
         switch (i) {
             case 0:
@@ -31,12 +32,14 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
 
 
     @Override
+    //set many fragment is in use
     public int getCount() {
         return 3;
     }
 
     @Nullable
     @Override
+    //set name for fragment item
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:

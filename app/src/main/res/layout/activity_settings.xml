@@ -16,7 +16,7 @@
         android:layout_marginTop="45dp"
         android:src="@drawable/profile_image"
         app:civ_border_width="5dp"
-        app:civ_border_color="#FF000000"/>
+        app:civ_border_color="@color/colorPrimary"/>
 
     <EditText
         android:id="@+id/set_user_name"

@@ -87,6 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 Toast.makeText(RegisterActivity.this,"Account Created Sucessfully", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
                             } else {
+                                //add toast for fail created account
                                 String message = task.getException().toString();
                                 Toast.makeText(RegisterActivity.this, "Error : " + message, Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
@@ -96,6 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    //inisialisasi field
     private void InitializeFields() {
         CreateAccountButton = (Button) findViewById(R.id.register_button);
         UserEmail = (EditText) findViewById(R.id.register_email);

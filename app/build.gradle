@@ -33,6 +33,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:16.0.4'
     implementation 'com.google.firebase:firebase-storage:16.0.4'
 
+    //circle image view library from github
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
 }
